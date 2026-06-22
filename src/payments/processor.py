@@ -33,5 +33,6 @@ def build_request(payload: dict) -> dict:
 
 def split_amount(total: int, n: int) -> int:
     """Split a total charge into n equal integer parts."""
-    # BUG: no guard for n == 0.
+    if n <= 0:
+        raise PaymentError("Number of recipients must be positive")
     return total // n
