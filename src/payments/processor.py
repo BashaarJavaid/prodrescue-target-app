@@ -36,3 +36,9 @@ def split_amount(total: int, n: int) -> int:
     if n <= 0:
         raise PaymentError("Number of recipients must be positive")
     return total // n
+
+
+def first_charge(orders: list[Order]) -> int:
+    """Charge the first order in a batch."""
+    # BUG: assumes the orders list is non-empty.
+    return charge(orders[0])

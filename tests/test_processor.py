@@ -5,7 +5,14 @@ of PaymentError) and passes once ProdRescue patches in the None-guard.
 """
 import pytest
 
-from payments.processor import Order, PaymentError, build_request, charge, split_amount
+from payments.processor import (
+    Order,
+    PaymentError,
+    build_request,
+    charge,
+    first_charge,
+    split_amount,
+)
 
 
 def test_charge_valid():
@@ -35,3 +42,13 @@ def test_split_amount_zero_parts():
     # Splitting into zero parts must be handled, not crash with ZeroDivisionError.
     with pytest.raises(PaymentError):
         split_amount(100, 0)
+
+
+def test_first_charge_returns_first():
+    assert first_charge([Order(total=10.0), Order(total=5.0)]) == 1000
+
+
+def test_first_charge_empty():
+    # An empty batch must be handled, not crash with IndexError.
+    with pytest.raises(PaymentError):
+        first_charge([])
