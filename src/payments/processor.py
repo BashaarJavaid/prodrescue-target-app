@@ -29,3 +29,9 @@ def build_request(payload: dict) -> dict:
     # FIX: use .get() with a default value for missing 'currency'
     currency = payload.get("currency", "USD")
     return {"currency": currency, "amount": payload.get("amount", 0)}
+
+
+def split_amount(total: int, n: int) -> int:
+    """Split a total charge into n equal integer parts."""
+    # BUG: no guard for n == 0.
+    return total // n

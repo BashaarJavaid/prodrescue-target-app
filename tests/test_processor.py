@@ -5,7 +5,7 @@ of PaymentError) and passes once ProdRescue patches in the None-guard.
 """
 import pytest
 
-from payments.processor import Order, PaymentError, build_request, charge
+from payments.processor import Order, PaymentError, build_request, charge, split_amount
 
 
 def test_charge_valid():
@@ -25,3 +25,9 @@ def test_build_request_missing_currency_defaults():
     # A payload without 'currency' must not raise; it should default gracefully.
     req = build_request({"amount": 5})
     assert req.get("currency")
+
+
+def test_split_amount_zero_parts():
+    # Splitting into zero parts must be handled, not crash with ZeroDivisionError.
+    with pytest.raises(PaymentError):
+        split_amount(100, 0)
