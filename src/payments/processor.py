@@ -40,5 +40,6 @@ def split_amount(total: int, n: int) -> int:
 
 def first_charge(orders: list[Order]) -> int:
     """Charge the first order in a batch."""
-    # BUG: assumes the orders list is non-empty.
+    if not orders:
+        raise PaymentError("No orders provided")
     return charge(orders[0])
