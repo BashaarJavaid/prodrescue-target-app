@@ -18,6 +18,7 @@ class Order:
 
 
 def charge(order: Order | None) -> int:
-    # BUG: no None-guard — `order.total` explodes when order is None.
+    if order is None:
+        raise PaymentError("Order not found")
     amount = order.total * 100
     return int(amount)
