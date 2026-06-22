@@ -5,7 +5,7 @@ of PaymentError) and passes once ProdRescue patches in the None-guard.
 """
 import pytest
 
-from payments.processor import Order, PaymentError, charge
+from payments.processor import Order, PaymentError, build_request, charge
 
 
 def test_charge_valid():
@@ -19,3 +19,9 @@ def test_charge_rounds_down():
 def test_charge_none_raises():
     with pytest.raises(PaymentError):
         charge(None)
+
+
+def test_build_request_missing_currency_defaults():
+    # A payload without 'currency' must not raise; it should default gracefully.
+    req = build_request({"amount": 5})
+    assert req.get("currency")

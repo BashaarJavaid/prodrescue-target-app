@@ -22,3 +22,10 @@ def charge(order: Order | None) -> int:
         raise PaymentError("Order not found")
     amount = order.total * 100
     return int(amount)
+
+
+def build_request(payload: dict) -> dict:
+    """Build a charge request payload for the gateway."""
+    # BUG: assumes 'currency' is always present in the payload.
+    currency = payload["currency"]
+    return {"currency": currency, "amount": payload.get("amount", 0)}
