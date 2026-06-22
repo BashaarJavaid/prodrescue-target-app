@@ -27,6 +27,10 @@ def test_build_request_missing_currency_defaults():
     assert req.get("currency")
 
 
+def test_split_amount_even():
+    assert split_amount(100, 4) == 25
+
+
 def test_split_amount_zero_parts():
     # Splitting into zero parts must be handled, not crash with ZeroDivisionError.
     with pytest.raises(PaymentError):
