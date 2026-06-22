@@ -26,6 +26,6 @@ def charge(order: Order | None) -> int:
 
 def build_request(payload: dict) -> dict:
     """Build a charge request payload for the gateway."""
-    # BUG: assumes 'currency' is always present in the payload.
-    currency = payload["currency"]
+    # FIX: use .get() with a default value for missing 'currency'
+    currency = payload.get("currency", "USD")
     return {"currency": currency, "amount": payload.get("amount", 0)}
